@@ -4,11 +4,17 @@ default_platform(:android)
 @gradleProperties = nil
 
 private_lane :build do
-    executeGradle(@configuration['task_build'])
+    gradle(
+            task: "assembleDebug",
+            flags: "-S"
+        )
 end
 
 private_lane :unit_test do
-    executeGradle(@configuration['task_unittest'])
+    gradle(
+            task: "assembleDebug",
+            flags: "-S"
+        )
 end
 
 def executeGradle(task)
@@ -56,6 +62,7 @@ end
 
 before_all do |lane, options|
     skip_docs
+    options[:conf] ||= "release"
     readAndroidParams(options)
 end
 
