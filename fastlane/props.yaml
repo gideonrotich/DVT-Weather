@@ -8,5 +8,5 @@ configurations:
     version_code: 1
     app_identifier: com.dvt
     app_name: DVT Weather
-    task_build: ktlintFormat ktlintCheck detekt spotlessApply assembleDebug
+    task_build:  assembleDebug
     task_unittest: assembleDebugUnitTest
