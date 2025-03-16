@@ -32,7 +32,7 @@ jobs:
       - name: Cache Bundler
         uses: actions/cache@v3
         with:
-          path: $CACHE_BUNDLER
+          path: ${{ env.CACHE_BUNDLER }}
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
@@ -45,11 +45,11 @@ jobs:
       - name: Install dependencies
         run: gem install bundler && bundle install
 
-      - name: Run Fastlane Develop
+      - name: Run Fastlane main
         uses: maierj/fastlane-action@v1.4.0
         with:
-          lane: develop
+          lane: main
           options: '{ "conf": "release" }'
           skip-tracking: false
           subdirectory: fastlane
-          bundle-install-path: $CACHE_BUNDLER
+          bundle-install-path: ${{ env.CACHE_BUNDLER }}

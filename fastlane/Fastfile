@@ -4,7 +4,7 @@ import("Android")
 
 before_all do |lane, options|
     skip_docs
-	readAndroidParams(options)
+    readAndroidParams(options)
 end
 
 desc "Runs on any branch"
@@ -12,7 +12,7 @@ lane :branch do |options|
     build
 end
 
-desc "Runs on develop branch"
-lane :develop do |options|
+desc "Runs on main branch"
+lane :main do |options|
     build
 end
