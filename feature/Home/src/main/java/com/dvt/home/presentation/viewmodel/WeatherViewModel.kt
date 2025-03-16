@@ -61,9 +61,7 @@ class WeatherViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     val filteredWeather: State<List<WeatherItemModel>> = derivedStateOf {
         _weather.value.weather?.list
-            ?.groupBy { it.dt_txt ?: "".substring(0, 10) }
-            ?.mapValues { (_, weatherEntries) -> weatherEntries.first() }
-            ?.values
+            ?.distinctBy { it.dt_txt?.substring(0, 10) }
             ?.take(5)
             ?.map { weather ->
                 WeatherItemModel(
