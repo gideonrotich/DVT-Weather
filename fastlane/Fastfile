@@ -4,15 +4,22 @@ import("Android")
 
 before_all do |lane, options|
     skip_docs
+    options[:conf] ||= "release"
     readAndroidParams(options)
 end
 
 desc "Runs on any branch"
 lane :branch do |options|
-    build
+    gradle(
+        task: "assembleDebug",
+        project_dir: "."
+    )
 end
 
 desc "Runs on main branch"
 lane :main do |options|
-    build
+    gradle(
+        task: "assembleDebug",
+        project_dir: "."
+    )
 end
