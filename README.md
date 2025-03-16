@@ -5,6 +5,8 @@ I added some screenshots in the screenshots folder, in the root directory of the
 
 <img src="screenshots/moja.png" width="270"/> <img src="screenshots/mbili.png" width="270"/> <img src="screenshots/tatu.png" width="270"/>
 
+<img src="screenshots/nne.png" width="270"/> <img src="screenshots/tano.png" width="270"/> <img src="screenshots/sita.png" width="270"/>
+
 ## App architecture
 The Android application gathers the layers into three packages:
 
