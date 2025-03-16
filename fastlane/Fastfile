@@ -56,7 +56,6 @@ end
 
 before_all do |lane, options|
     skip_docs
-    options[:conf] ||= "release"
     readAndroidParams(options)
 end
 
