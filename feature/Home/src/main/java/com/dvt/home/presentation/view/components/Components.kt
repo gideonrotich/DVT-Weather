@@ -94,7 +94,7 @@ fun WeatherForecastScreen(weatherList: List<WeatherItemModel>) {
     ) {
         backgroundPainter?.let { painter ->
             Image(
-                painter = painterResource(R.drawable.forest),
+                painter = painter,
                 contentDescription = "Weather Background",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
@@ -114,7 +114,6 @@ fun WeatherForecastScreen(weatherList: List<WeatherItemModel>) {
             ) {
                 items(weatherList) { weather ->
                     WeatherItem(weather)
-
                 }
             }
         }
@@ -151,7 +150,6 @@ fun WeatherItem(weather: WeatherItemModel) {
                         color = Color.Black
                     )
                 )
-
 
                 Image(
                     painter = painterResource(getWeatherDrawable(description = weather.description)),

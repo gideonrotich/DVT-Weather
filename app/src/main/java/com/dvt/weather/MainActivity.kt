@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
         setContent {
            DVTWeatherTheme {
                     HomeScreen()
-
             }
         }
     }
