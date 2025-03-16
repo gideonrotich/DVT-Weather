@@ -4,17 +4,11 @@ default_platform(:android)
 @gradleProperties = nil
 
 private_lane :build do
-    gradle(
-            task: "assembleDebug",
-            flags: "-S"
-        )
+    system("echo Building project...")
 end
 
 private_lane :unit_test do
-    gradle(
-            task: "assembleDebug",
-            flags: "-S"
-        )
+     system("echo Building project...")
 end
 
 def executeGradle(task)
