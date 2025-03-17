@@ -15,26 +15,52 @@
  */
 package com.dvt.core.Util
 
+import android.annotation.SuppressLint
 import android.location.Location
 import android.os.Build
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.Priority
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
-fun getCurrentLocation(fusedLocationClient: FusedLocationProviderClient, onLocationReceived: (String, String) -> Unit) {
+//fun getCurrentLocation(fusedLocationClient: FusedLocationProviderClient, onLocationReceived: (String, String) -> Unit) {
+//    try {
+//        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+//            location?.let {
+//                onLocationReceived(it.latitude.toString(), it.longitude.toString())
+//            }
+//        }
+//    } catch (e: SecurityException) {
+//        Log.e("LocationError", "Location permission not granted")
+//    }
+//}
+
+@SuppressLint("MissingPermission")
+fun getCurrentLocation(
+    fusedLocationClient: FusedLocationProviderClient,
+    onLocationReceived: (Double, Double) -> Unit
+) {
     try {
-        fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-            location?.let {
-                onLocationReceived(it.latitude.toString(), it.longitude.toString())
+        fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null)
+            .addOnSuccessListener { location ->
+                if (location != null) {
+                    val lat = location.latitude
+                    val lon = location.longitude
+                    onLocationReceived(lat, lon)
+                } else {
+                    onLocationReceived(0.0, 0.0)
+                }
             }
-        }
+            .addOnFailureListener { e ->
+                onLocationReceived(0.0, 0.0)
+            }
     } catch (e: SecurityException) {
-        Log.e("LocationError", "Location permission not granted")
+        onLocationReceived(0.0, 0.0)
     }
 }
 

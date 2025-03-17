@@ -64,6 +64,7 @@ import com.dvt.home.presentation.State.WeatherItemModel
 import com.dvt.home.presentation.view.components.PermissionDeniedScreen
 import com.dvt.home.presentation.view.components.WeatherForecastScreen
 import com.dvt.home.presentation.view.components.getWeatherDrawable
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -85,14 +86,15 @@ fun HomeScreen(
             fetchWeatherData(viewModel, fusedLocationClient)
         } else {
             viewModel.updatePermissionStatus(false)
-            Log.e("Permission", "Location permission denied")
         }
     }
 
     LaunchedEffect(Unit) {
         val permissionStatus =
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+
         if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+            viewModel.updatePermissionStatus(true)
             fetchWeatherData(viewModel, fusedLocationClient)
         } else {
             permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -121,10 +123,13 @@ fun HomeScreen(
 
 private fun fetchWeatherData(
     viewModel: WeatherViewModel,
-    fusedLocationClient: com.google.android.gms.location.FusedLocationProviderClient
+    fusedLocationClient: FusedLocationProviderClient
 ) {
     getCurrentLocation(fusedLocationClient) { lat, lon ->
-        Log.d("Weather", "Fetching weather data for lat: $lat, lon: $lon")
-        viewModel.getForecast(lat, lon)
+        if (lat == 0.0 && lon == 0.0) {
+            Log.e("HomeScreen", "Invalid location")
+        } else {
+            viewModel.getForecast(lat.toString(), lon.toString())
+        }
     }
 }

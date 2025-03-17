@@ -55,7 +55,6 @@ class WeatherViewModel @Inject constructor(
      */
     fun updatePermissionStatus(granted: Boolean) {
         _isPermissionGranted.value = granted
-        Log.d("Permission", "Permission status updated: $granted")
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -76,21 +75,18 @@ class WeatherViewModel @Inject constructor(
      * Fetches the weather forecast based on the provided latitude and longitude.
      */
     fun getForecast(lat: String, lon: String) {
-        Log.d("Weather", "Fetching forecast for lat: $lat, lon: $lon")
+        _weather.value = WeatherState(isLoading = true)
 
         getWeatherUseCase(lat, lon).onEach { result ->
             when (result) {
                 is Resource.Success -> {
-                    _weather.value = WeatherState(weather = result.data)
-                    Log.d("Weather", "Weather data fetched successfully")
+                    _weather.value = WeatherState(weather = result.data, isLoading = false)
                 }
                 is Resource.Error -> {
-                    _weather.value = WeatherState(error = result.message ?: "An unexpected error occurred")
-                    Log.e("Weather", "Error fetching weather: ${result.message}")
+                    _weather.value = WeatherState(isLoading = false,error = result.message ?: "An unexpected error occurred")
                 }
                 is Resource.Loading -> {
                     _weather.value = WeatherState(isLoading = true)
-                    Log.d("Weather", "Fetching weather data...")
                 }
             }
         }.launchIn(viewModelScope)
